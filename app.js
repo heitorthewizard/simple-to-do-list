@@ -2,36 +2,67 @@ document.addEventListener("DOMContentLoaded", () => {
   const list = document.querySelector("#list");
   const inputTask = document.querySelector("#taskInput");
   const addButton = document.querySelector("#addButton");
-  const listOfAddedTasks = [];
+  const listOfAddedTasks = [
+    {task: "blabla", id:"0"},
+    {task: "blabla", id:"0"},
+    {task: "blabla", id:"0"},
+    {task: "blabla", id:"0"},
+    {task: "blabla", id:"0"},
+    {task: "blabla", id:"0"},
+    {task: "blabla", id:"0"},
+    {task: "blabla", id:"0"},
+    {task: "blabla", id:"0"},
+    {task: "blabla", id:"0"},
+    {task: "blabla", id:"0"},
+    {task: "blabla", id:"0"},
+    {task: "blabla", id:"0"},
+    {task: "blabla", id:"0"},
+    {task: "blabla", id:"0"},
+    {task: "blabla", id:"0"},
+    {task: "blabla", id:"0"},
+    {task: "blabla", id:"0"},
+    {task: "blabla", id:"0"},
+    {task: "blabla", id:"0"},
+    {task: "blabla", id:"0"},
+    {task: "blabla", id:"0"},
+    {task: "blabla", id:"0"},
+    {task: "blabla", id:"0"},
+    {task: "blabla", id:"0"},
+    {task: "blabla", id:"0"},
+    {task: "blabla", id:"0"},
+  ];
 
-  addButton.addEventListener("click", addTaskToList);
+  buildListOfTasks()
 
-  function createArrayList() {
-    // alert('works)
-    const item = document.createElement("li");
-    const task = document.createElement("span");
-    const removeButton = document.createElement("button");
+  addButton.addEventListener("click", addTaskToListOfTasks);
 
+  function addTaskToListOfTasks() {
     if (inputTask.value.length != 0) {
-      task.innerText = inputTask.value;
-      
+      listOfAddedTasks.push({ task: inputTask.value });
+      buildListOfTasks();
+      inputTask.value = "";
+    }
+  }
+
+  function buildListOfTasks() {
+    list.innerHTML = "";
+    for (let i = 0; i < listOfAddedTasks.length; i++) {
+      const item = document.createElement("li");
+      const task = document.createElement("span");
+      const removeButton = document.createElement("button");
+
+      task.innerText = listOfAddedTasks[i].task;
+      task.id = i;
       removeButton.innerText = "X";
       removeButton.addEventListener("click", removeTaskFromList);
-      
+
       item.appendChild(task);
       item.appendChild(removeButton);
       list.appendChild(item);
-      
-      listOfAddedTasks.push(inputTask.value);
-      //clear input
-      inputTask.value = "";
-      console.log(listOfAddedTasks)
-    } else {
-      alert("You need to write the task");
     }
   }
 
   function removeTaskFromList() {
-    
+    alert("works");
   }
 });
