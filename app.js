@@ -1,68 +1,64 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const list = document.querySelector("#list");
-  const inputTask = document.querySelector("#taskInput");
-  const addButton = document.querySelector("#addButton");
-  const listOfAddedTasks = [
-    {task: "blabla", id:"0"},
-    {task: "blabla", id:"0"},
-    {task: "blabla", id:"0"},
-    {task: "blabla", id:"0"},
-    {task: "blabla", id:"0"},
-    {task: "blabla", id:"0"},
-    {task: "blabla", id:"0"},
-    {task: "blabla", id:"0"},
-    {task: "blabla", id:"0"},
-    {task: "blabla", id:"0"},
-    {task: "blabla", id:"0"},
-    {task: "blabla", id:"0"},
-    {task: "blabla", id:"0"},
-    {task: "blabla", id:"0"},
-    {task: "blabla", id:"0"},
-    {task: "blabla", id:"0"},
-    {task: "blabla", id:"0"},
-    {task: "blabla", id:"0"},
-    {task: "blabla", id:"0"},
-    {task: "blabla", id:"0"},
-    {task: "blabla", id:"0"},
-    {task: "blabla", id:"0"},
-    {task: "blabla", id:"0"},
-    {task: "blabla", id:"0"},
-    {task: "blabla", id:"0"},
-    {task: "blabla", id:"0"},
-    {task: "blabla", id:"0"},
-  ];
+const list = document.querySelector("#list");
+const inputTask = document.querySelector("#taskInput");
+const addButton = document.querySelector("#addButton");
+let listOfAddedTasks = [];
 
-  buildListOfTasks()
+// add storage tasks to the list of array
+if (listOfAddedTasks.length == 0) {
+  const storageTasks = JSON.parse(localStorage.getItem("tasks")) || [];
+  listOfAddedTasks.push(...storageTasks);
+}
 
-  addButton.addEventListener("click", addTaskToListOfTasks);
+buildListOfTasks();
 
-  function addTaskToListOfTasks() {
-    if (inputTask.value.length != 0) {
-      listOfAddedTasks.push({ task: inputTask.value });
-      buildListOfTasks();
-      inputTask.value = "";
-    }
+addButton.addEventListener("click", addTaskToListOfTasks);
+
+function addTaskToListOfTasks() {
+  if (inputTask.value.length != 0) {
+    listOfAddedTasks.push(inputTask.value);
+
+    // add task to local storage
+    localStorage.setItem('tasks', JSON.stringify(listOfAddedTasks))
+
+    buildListOfTasks();
+
+    // clear input
+    inputTask.value = "";
   }
+}
 
-  function buildListOfTasks() {
-    list.innerHTML = "";
-    for (let i = 0; i < listOfAddedTasks.length; i++) {
-      const item = document.createElement("li");
-      const task = document.createElement("span");
-      const removeButton = document.createElement("button");
+function buildListOfTasks() {
+  list.innerHTML = "";
+  for (let i = 0; i < listOfAddedTasks.length; i++) {
+    const item = document.createElement("li");
+    const task = document.createElement("span");
+    const removeButton = document.createElement("button");
 
-      task.innerText = listOfAddedTasks[i].task;
-      task.id = i;
-      removeButton.innerText = "X";
-      removeButton.addEventListener("click", removeTaskFromList);
+    item.id = "id" + i;
+    task.innerText = listOfAddedTasks[i];
+    removeButton.innerText = "X";
+    removeButton.setAttribute("onclick", `removeTaskFromList(${i})`);
 
-      item.appendChild(task);
-      item.appendChild(removeButton);
-      list.appendChild(item);
-    }
+    item.appendChild(task);
+    item.appendChild(removeButton);
+    list.appendChild(item);
   }
+}
 
-  function removeTaskFromList() {
-    alert("works");
-  }
-});
+function removeTaskFromList(id) {
+  const itemToRemove = document.querySelector("#id" + id);
+  list.removeChild(itemToRemove);
+
+  // remove the task from the array
+  const firstHalf = listOfAddedTasks.slice(0, id);
+  const secondHalf = listOfAddedTasks.slice(id + 1);
+  listOfAddedTasks = firstHalf.concat(secondHalf);
+
+  // update list of tasks
+  buildListOfTasks();
+
+  // update local storage
+  localStorage.setItem("tasks", JSON.stringify(listOfAddedTasks));
+}
+
+//localStorage.clear()

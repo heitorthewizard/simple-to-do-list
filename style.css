@@ -32,26 +32,27 @@ body {
 
 #list {
   width: 100%;
-  height: 100vh;
+  height: 85%;
   position: relative;
+  overflow-x: hidden;
   overflow-y: auto;
-  overflow-y: hidden;
 }
 
 #container {
+  width: 100%;
+  height: 15%;
   display: flex;
   justify-content: center;
   align-items: center;
-  position: sticky;
   bottom: 0;
   padding: 20px;
-  width: 100%;
   background-color: black;
   border-top: solid 1px white;
 }
 
 input {
   width: 100%;
+  height: 100%;
   padding: 5px;
   background-color: #eeeeee;
   outline: none;
@@ -65,7 +66,7 @@ input {
 }
 
 li {
-  width: 100%;
+  max-width: 500px;
   height: 30px;
   margin: 10px 0 10px 0;
   background-color: #555555;
@@ -80,16 +81,30 @@ button {
   padding: 0 10px 0 10px;
   border: none;
   height: 100%;
-  background-color: #dddddd;
+  background-color: #cccccc;
   cursor: pointer;
   transition: all ease 300ms;
   font-weight: bolder;
+  outline: none;
 }
 
 button:hover {
-  background-color: #c9c9c9;
+  background-color: #aaaaaa;
+}
+
+button:active {
+  background-color: #888888;
+}
+
+#removeButton {
+  width: 20%;
 }
 
 span {
-  margin-left: 5px;
+  width: 100%;
+  display: block;
+  text-indent: 10px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
